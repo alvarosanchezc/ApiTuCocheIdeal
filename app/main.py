@@ -4,7 +4,7 @@ from uuid import uuid4
 
 app = FastAPI()
 
-class Student(BaseModel):
+class Cliente(BaseModel):
     nombre: str
     apellido: str
     pais: str
@@ -14,42 +14,42 @@ class Student(BaseModel):
     celular: str
     contrasena: str
 
-students = [] #lista para almacenar la información de los estudiantes
+clientes = [] #lista para almacenar la información de los clientes
 
-@app.get("/estudiantes") #para obtener estudiantes
-def get_students():
-    return students
-@app.get("/estudiantes/{numeroCedula}")
-def get_student(numeroCedula: int):
-    for student in students:
-        if student["numeroCedula"] == numeroCedula:
-            return student
+@app.get("/clientes") #para obtener clientes
+def get_clientes():
+    return clientes
+@app.get("/clientes/{numeroCedula}")
+def get_cliente(numeroCedula: int):
+    for cliente in clientes:
+        if cliente["numeroCedula"] == numeroCedula:
+            return cliente
     return "No existe el cliente"
 
-@app.post("/estudiantes") #para registrar estudiantes
-def save_student(student: Student):
+@app.post("/clientes") #para registrar clientes
+def save_cliente(cliente: Cliente):
 #    student.cedula = str(uuid4()) para crear de forma aleatoria el id
-    students.append(student.dict())#para añadir estudiantes en la lista
+    clientes.append(cliente.dict())#para añadir clientes en la lista
     return "Cliente registrado"
 
-@app.put("/estudiantes/{numeroCedula}")
-def update_student(updated_student: Student, numeroCedula:int): #se recibe los datos del estudiante y el identificador .
-    for student in students: #por cada estudiante en la lista de estudiante
-        if student["numeroCedula"] == numeroCedula:
-            student["nombre"] = updated_student.nombre
-            student["apellido"] = updated_student.apellido
-            student["pais"] =  updated_student.pais
-            student["ciudad"] = updated_student.ciudad
-            student["direccionResidencia"] = updated_student.direccionResidencia
-            student["celular"] = updated_student.celular
-            student["contrasena"] = updated_student.contrasena
+@app.put("/clientes/{numeroCedula}")
+def update_cliente(updated_cliente: Cliente, numeroCedula:int): #se recibe los datos del cliente y el identificador .
+    for cliente in clientes: #por cada estudiante en la lista de estudiante
+        if cliente["numeroCedula"] == numeroCedula:
+            cliente["nombre"] = updated_cliente.nombre
+            cliente["apellido"] = updated_cliente.apellido
+            cliente["pais"] =  updated_cliente.pais
+            cliente["ciudad"] = updated_cliente.ciudad
+            cliente["direccionResidencia"] = updated_cliente.direccionResidencia
+            cliente["celular"] = updated_cliente.celular
+            cliente["contrasena"] = updated_cliente.contrasena
             return "Cliente modificado"
     return "No existe el Cliente"
 
-@app.delete("/estudiantes/{numeroCedula}")
-def delete_student(id: str):
-    for student in students: #buscar estudiante en la lista estudiante
-        if student["numeroCedula"] == numeroCedula:
-            students.remove(student) #metodo remove para eliminar el estudiante de la lista
+@app.delete("/clientes/{numeroCedula}")
+def delete_cliente(id: str):
+    for cliente in clientes: #buscar cliente en la lista clientes
+        if cliente["numeroCedula"] == numeroCedula:
+            clientes.remove(cliente) #metodo remove para eliminar el cliente de la lista
             return "Estudiante eliminado"
     return "No existe el estudiante"
