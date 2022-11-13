@@ -1789,3 +1789,4 @@ env/Scripts/pip3.exe
 env/Scripts/python.exe
 env/Scripts/pythonw.exe
 env/Scripts/uvicorn.exe
+app/__pycache__/main.cpython-39.pyc
