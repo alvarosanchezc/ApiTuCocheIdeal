@@ -5,42 +5,51 @@ from uuid import uuid4
 app = FastAPI()
 
 class Student(BaseModel):
-    id: str
-    name: str
-    lastname: str
+    nombre: str
+    apellido: str
+    pais: str
+    ciudad: str
+    direccionResidencia: str
+    numeroCedula: int
+    celular: str
+    contrasena: str
 
 students = [] #lista para almacenar la información de los estudiantes
 
 @app.get("/estudiantes") #para obtener estudiantes
 def get_students():
     return students
-@app.get("/estudiantes/{id}")
-def get_student(id: str):
+@app.get("/estudiantes/{numeroCedula}")
+def get_student(numeroCedula: int):
     for student in students:
-        if student["id"] == id:
+        if student["numeroCedula"] == numeroCedula:
             return student
-    return "No existe el estudiante"
+    return "No existe el cliente"
 
 @app.post("/estudiantes") #para registrar estudiantes
 def save_student(student: Student):
-    student.id = str(uuid4()) #para crear de forma aleatoria el id
+#    student.cedula = str(uuid4()) para crear de forma aleatoria el id
     students.append(student.dict())#para añadir estudiantes en la lista
-    return "Estudiante registrado"
+    return "Cliente registrado"
 
-@app.put("/estudiantes/{id}")
-def update_student(updated_student: Student, id:str): #se recibe los datos del estudiante y el identificador .
+@app.put("/estudiantes/{numeroCedula}")
+def update_student(updated_student: Student, numeroCedula:int): #se recibe los datos del estudiante y el identificador .
     for student in students: #por cada estudiante en la lista de estudiante
-        if student["id"] == id:
-            student["name"] = updated_student.name
-            student["lastname"] = updated_student.lastname
-            return "Estudiante modificado"
-    return "No existe el estudiante"
+        if student["numeroCedula"] == numeroCedula:
+            student["nombre"] = updated_student.nombre
+            student["apellido"] = updated_student.apellido
+            student["pais"] =  updated_student.pais
+            student["ciudad"] = updated_student.ciudad
+            student["direccionResidencia"] = updated_student.direccionResidencia
+            student["celular"] = updated_student.celular
+            student["contrasena"] = updated_student.contrasena
+            return "Cliente modificado"
+    return "No existe el Cliente"
 
-@app.delete("/estudiantes/{id}")
+@app.delete("/estudiantes/{numeroCedula}")
 def delete_student(id: str):
     for student in students: #buscar estudiante en la lista estudiante
-        if student["id"] == id:
+        if student["numeroCedula"] == numeroCedula:
             students.remove(student) #metodo remove para eliminar el estudiante de la lista
             return "Estudiante eliminado"
     return "No existe el estudiante"
-
